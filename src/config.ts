@@ -4,6 +4,7 @@ export const siteConfig = {
   description: "Portfolio website of Paolo Roncaglioni",
   accentColor: "#1d4ed8",
   photo: "/avatar.jpg",
+  resume: "/resume.pdf",
   social: {
     email: "paolo.roncaglioni@gmail.com",
     linkedin: "https://linkedin.com/in/paolo-roncaglioni",
