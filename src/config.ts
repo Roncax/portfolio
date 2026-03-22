@@ -1,17 +1,17 @@
 export const siteConfig = {
   name: "Paolo Roncaglioni",
-  title: "Computer Science Engineer M.Sc.",
+  title: "M.Sc. Computer Science Engineer · Solution Architect · ML Enthusiast",
   description: "Portfolio website of Paolo Roncaglioni",
   accentColor: "#1d4ed8",
   photo: "/avatar.jpg",
   resume: "/resume.pdf",
   social: {
     email: "paolo.roncaglioni@gmail.com",
-    linkedin: "https://linkedin.com/in/paolo-roncaglioni",
+    linkedin: "https://linkedin.com/in/paoloroncaglioni",
     github: "https://github.com/roncax",
   },
   aboutMe:
-    "I am a Computer Science Engineer with experience in cloud architecture and backend development. I have a strong background in software engineering and machine learning theory. I enjoy tackling new challenges and am eager to learn and explore new interests.",
+    "I'm a highly motivated professional with a Master of Science in Computer Science Engineering, specializing in Machine Learning. As a Solution Architect at a prominent IT company, I thrive on designing innovative solutions that leverage cutting-edge technology to address complex business challenges. I constantly seek new developments in the field and stay updated with the latest trends. Beyond my professional endeavors, I'm a passionate rugby player — a sport that teaches me teamwork, resilience, and strategic thinking, qualities I bring to my professional life.",
   skills: [
     "Java",
     "Java Spring",
@@ -40,7 +40,7 @@ export const siteConfig = {
     {
       company: "Accenture",
       title: "Enterprise Architect Consultant",
-      dateRange: "2025 - Present",
+      dateRange: "06/2024 - Present",
       bullets: [
         "Software Architect and Team Lead for a multi-country global team (Germany, Greece, Spain, India) at a major insurance company, following Agile methodologies with a multi-microservices architecture on AWS using DevOps IaaC tools (Terraform, GitLab).",
         "Full-stack engineer (DevOps, Backend, Frontend) for an internal paper-to-web digitalization web service using Angular, Java Spring, and AWS services.",
@@ -57,7 +57,7 @@ export const siteConfig = {
     },
     {
       company: "STMicroelectronics",
-      title: "Developer Intern",
+      title: "Software Design Intern",
       dateRange: "11/2021 - 02/2022",
       bullets: [
         "Python database management and data presentation for an internal project.",
