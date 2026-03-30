@@ -7,7 +7,7 @@ export const siteConfig = {
   resume: "/resume.pdf",
   social: {
     email: "paolo.roncaglioni@gmail.com",
-    linkedin: "https://linkedin.com/in/paoloroncaglioni",
+    linkedin: "https://linkedin.com/in/paolo-roncaglioni",
     github: "https://github.com/roncax",
   },
   aboutMe:
