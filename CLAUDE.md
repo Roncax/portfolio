@@ -4,61 +4,132 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a modern, minimalist portfolio template built with Astro and Tailwind CSS v4. It's designed to be easily customizable through a single configuration file while maintaining a clean, professional appearance.
+A modern, minimalist single-page portfolio website built with Astro and Tailwind CSS v4. All content is driven by a single configuration file (`src/config.ts`), making customization simple without touching component code. Deployed automatically to GitHub Pages on push to `master`.
+
+**Live site:** `roncax.github.io/portfolio`
 
 ## Tech Stack
 
-- **Astro**: Static site generator
-- **Tailwind CSS v4**: Utility-first CSS framework using the new @tailwindcss/vite plugin
-- **TypeScript**: For type-safe configuration
-- **Tabler Icons**: Icon library
+| Layer | Technology |
+|---|---|
+| Framework | Astro v5.12.3 (static site generator) |
+| Styling | Tailwind CSS v4.1.11 via `@tailwindcss/vite` |
+| Language | TypeScript (strict mode) |
+| Font | IBM Plex Mono from Google Fonts |
+| Icons | Custom inline SVG (no icon library dependency) |
+| Hosting | GitHub Pages |
+| CI/CD | GitHub Actions (`.github/workflows/deploy.yml`) |
 
 ## Development Commands
 
 ```bash
-npm run dev       # Start development server
-npm run build     # Build for production
-npm run preview   # Preview production build
+npm install       # Install dependencies
+npm run dev       # Start development server (localhost)
+npm run build     # Build for production → dist/
+npm run preview   # Preview production build locally
+npm run astro     # Direct Astro CLI access
+```
+
+No linting or testing framework is configured. The project is purely a static site with no backend or database.
+
+## Repository Layout
+
+```
+portfolio/
+├── src/
+│   ├── config.ts          # ALL content lives here — single source of truth
+│   ├── pages/
+│   │   └── index.astro    # Main page — composes all section components
+│   ├── components/
+│   │   ├── Header.astro   # Sticky nav with scroll-aware backdrop blur
+│   │   ├── Hero.astro     # Name, title, social links, fade-in animations
+│   │   ├── About.astro    # Bio text + skill badges
+│   │   ├── Projects.astro # Project cards (hidden if projects array is empty)
+│   │   ├── Experience.astro # Timeline with SVG background pattern
+│   │   ├── Education.astro  # Education entries
+│   │   └── Footer.astro   # Nav links + contact info
+│   └── styles/
+│       └── global.css     # Tailwind imports + body font
+├── public/
+│   ├── avatar.jpg         # Profile photo
+│   ├── resume.pdf         # Downloadable resume
+│   └── favicon.svg
+├── astro.config.mjs       # Astro + Tailwind vite plugin config, GitHub Pages base URL
+├── tsconfig.json          # Extends astro/tsconfigs/strict
+└── package.json
 ```
 
 ## Architecture
 
-The project follows a component-based architecture with all customization centralized in `src/config.ts`:
+### Configuration-Driven Design
 
-- **Components** (`src/components/`): Individual Astro components for each section (Hero, About, Projects, Experience, Education, Header, Footer)
-- **Main Layout** (`src/pages/index.astro`): Single-page layout that imports all components
-- **Configuration** (`src/config.ts`): Single source of truth for all content and customization
+**All content lives in `src/config.ts`.** Components never hard-code content — they import and render from `siteConfig`. To update the portfolio, only `src/config.ts` needs to change.
 
-### Key Architectural Decisions
+```typescript
+// src/config.ts shape
+export const siteConfig = {
+  name: string,
+  title: string,
+  description: string,
+  accentColor: string,      // hex color — propagates site-wide via CSS var --accent-color
+  photo: string,            // path relative to public/
+  resume: string,           // path relative to public/
+  social: {
+    email?: string,
+    linkedin?: string,
+    twitter?: string,
+    github?: string,
+  },
+  aboutMe: string,
+  skills: string[],
+  projects: Array<{ name, description, link?, skills? }>,
+  experience: Array<{ company, title, dateRange, bullets: string[] }>,
+  education: Array<{ school, degree, dateRange, achievements: string[] }>,
+}
+```
 
-1. **Single Configuration File**: All content is managed through `src/config.ts` to make customization simple
-2. **Conditional Rendering**: Sections automatically hide if their data is removed from the config
-3. **Component Independence**: Each section is a self-contained component that reads from the config
-4. **Accent Color System**: Single `accentColor` in config propagates throughout the site via CSS custom properties
+### Conditional Rendering
 
-## Important Implementation Details
+Sections automatically hide when their data arrays are empty:
+- `Projects` section: hidden if `projects.length === 0`
+- `Experience` section: hidden if `experience.length === 0`
+- `Education` section: hidden if `education.length === 0`
+- Social links: each renders only if the corresponding field is set
 
-- The site uses Tailwind CSS v4 with the Vite plugin configuration
-- No linting or testing framework is currently configured
-- All components are in `.astro` format (not React/Vue/etc)
-- The project uses IBM Plex Mono font loaded from Google Fonts
-- Social links in the config are all optional and will conditionally render
+### Accent Color System
 
-## Working with Components
+`siteConfig.accentColor` is injected as `--accent-color` CSS custom property in `index.astro`. Components reference `var(--accent-color)` for themed elements. Change `accentColor` in config to retheme the entire site.
 
-When modifying components:
-1. Components read directly from the imported `siteConfig` object
-2. Use Tailwind utility classes for styling
-3. Maintain the existing monospace font aesthetic
-4. Use Tabler Icons for consistency with existing icons
+## Component Conventions
 
-## Configuration Structure
+- All components are `.astro` files — no React, Vue, or other UI frameworks
+- Styling is done exclusively with Tailwind utility classes (no custom CSS beyond global.css)
+- Maintain the monospace aesthetic (`font-mono` / IBM Plex Mono)
+- When adding icons, use inline SVG to avoid adding icon library dependencies
+- Components use `---` frontmatter blocks for TypeScript imports
 
-The `src/config.ts` exports a `siteConfig` object with these sections:
-- Basic info: name, title, description, accentColor
-- Social links: email, linkedin, twitter, github (all optional)
-- aboutMe: string
-- skills: string[]
-- projects: array of {name, description, link, skills}
-- experience: array of {company, title, dateRange, bullets}
-- education: array of {school, degree, dateRange, achievements}
+## Deployment
+
+Push to `master` → GitHub Actions builds (`npm ci && npm run build`) → deploys `dist/` to GitHub Pages.
+
+The `astro.config.mjs` sets:
+```js
+site: "https://roncax.github.io"
+base: "portfolio"
+```
+
+If deploying to a different URL or repo name, both values must be updated.
+
+## Common Tasks
+
+**Update portfolio content:** Edit `src/config.ts` only.
+
+**Change theme color:** Update `accentColor` hex value in `src/config.ts`.
+
+**Add a new section:** Create a component in `src/components/`, add its data shape to `siteConfig` in `config.ts`, import and render in `src/pages/index.astro`.
+
+**Replace profile photo:** Overwrite `public/avatar.jpg`.
+
+**Replace resume:** Overwrite `public/resume.pdf`.
+
+**Change deployment target:** Update `site` and `base` in `astro.config.mjs`.

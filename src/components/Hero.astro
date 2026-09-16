@@ -4,18 +4,23 @@ import { siteConfig } from "../config";
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white py-24 md:h-screen"
-  style={`--accent-color: ${siteConfig.accentColor}`}
+  class="relative isolate overflow-hidden bg-white dark:bg-gray-900 py-24 md:h-screen"
 >
-  <!-- Gradient overlay -->
+  <!-- Gradient overlay (light) -->
   <div
-    class="absolute inset-0 -z-10"
+    class="absolute inset-0 -z-10 dark:hidden"
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
+  >
+  </div>
+  <!-- Gradient overlay (dark) -->
+  <div
+    class="absolute inset-0 -z-10 hidden dark:block"
+    style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(17, 24, 39, 0.3) 70%, rgba(17, 24, 39, 0.8) 90%, #111827 100%)`}
   >
   </div>
   <svg
     aria-hidden="true"
-    class="absolute inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    class="absolute inset-0 -z-10 size-full stroke-gray-200 dark:stroke-gray-700 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
   >
     <defs>
       <pattern
@@ -134,33 +139,33 @@ import { siteConfig } from "../config";
       <img
         src={import.meta.env.BASE_URL.replace(/\/$/, '') + siteConfig.photo}
         alt={siteConfig.name}
-        class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full object-cover object-top border-4 border-white shadow-lg"
+        class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full object-cover object-top border-4 border-white dark:border-gray-800 shadow-lg"
       />
     </div>
   )}
   <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex items-center">
     <div>
       <h2
-        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
+        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 dark:text-gray-300 animate-fade-in"
       >
-        Hello! 👋
+        &gt; whoami
       </h2>
       <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
+        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 dark:text-gray-100 animate-fade-in animation-delay-200"
       >
-        I'm <span style={{ color: siteConfig.accentColor }}
+        I'm <span style="color: var(--accent-color)"
           >{siteConfig.name}</span
         >
       </h1>
       <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 animate-fade-in animation-delay-400"
+        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 dark:text-gray-400 animate-fade-in animation-delay-400"
       >
         {siteConfig.title}
       </p>
     </div>
   </div>
   <div
-    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700 animate-fade-in animation-delay-600"
+    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700 dark:text-gray-300 animate-fade-in animation-delay-600"
   >
     {
       siteConfig.social?.email && (

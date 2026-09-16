@@ -6,11 +6,30 @@ import Projects from "../components/Projects.astro";
 import Experience from "../components/Experience.astro";
 import Education from "../components/Education.astro";
 import Footer from "../components/Footer.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import { siteConfig } from "../config";
 import "../styles/global.css";
+
+// A lighter tint of the accent color for use on dark backgrounds, where the
+// full-strength (often dark) accent color would be too low-contrast to read.
+function lighten(hex: string, amount: number) {
+  const num = parseInt(hex.replace("#", ""), 16);
+  const channel = (shift: number) => {
+    const c = (num >> shift) & 0xff;
+    return Math.min(255, Math.round(c + (255 - c) * amount));
+  };
+  return `#${[channel(16), channel(8), channel(0)]
+    .map((c) => c.toString(16).padStart(2, "0"))
+    .join("")}`;
+}
+
+const accentColorDark = lighten(siteConfig.accentColor, 0.55);
 ---
 
-<html lang="en">
+<html
+  lang="en"
+  style={`--accent-color: ${siteConfig.accentColor}; --accent-color-dark: ${accentColorDark}`}
+>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -24,9 +43,19 @@ import "../styles/global.css";
       rel="stylesheet"
     />
     <title>{siteConfig.name} - {siteConfig.title}</title>
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const isDark = stored
+          ? stored === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", isDark);
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-white dark:bg-gray-900 transition-colors duration-300">
     <Header />
+    <ThemeToggle />
     <section>
       <Hero />
       <About />

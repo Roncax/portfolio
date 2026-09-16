@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Swap in the lighter accent tint on dark backgrounds. !important is needed
+   because --accent-color is set via an inline style on <html> (so component
+   templates can read it at build time too), which normal cascade rules can't
+   override. */
+.dark {
+  --accent-color: var(--accent-color-dark) !important;
 }
